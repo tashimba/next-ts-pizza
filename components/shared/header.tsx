@@ -12,11 +12,11 @@ interface Props {
 export const Header = ({ className }: Props) => {
   return (
     <header className={cn("border-b ", className)}>
-      <Container className="flex items-center justify-between py-6 px-8">
+      <Container className="flex items-center justify-between py-6">
         <div className="flex items-center gap-4">
-          <Image src="/logo.png" alt="logo" width={35} height={35} />
+          <Image src="/logo.png" alt="logo" width={40} height={40} />
           <div>
-            <h1 className="text-2xl font-bold uppercase">Next Pizza</h1>
+            <h1 className="text-2xl font-black uppercase">Next Pizza</h1>
             <p className="text-sm text-gray-400 leading-3">
               Вкуснее уже некуда{" "}
             </p>

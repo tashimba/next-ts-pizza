@@ -6,3 +6,4 @@ export { Slider } from "./slider";
 export { Drawer } from "./drawer";
 export { Checkbox } from "./checkbox";
 export { Popover } from "./popover";
+export { RangeSlider } from "./range-slider";
