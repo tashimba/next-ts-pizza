@@ -4,6 +4,7 @@ import { Container } from "./container";
 import Image from "next/image";
 import { Button } from "../ui";
 import { ArrowRight, ShoppingCart, User } from "lucide-react";
+import { SearchInput } from "./search-input";
 
 interface Props {
   className?: string;
@@ -21,6 +22,9 @@ export const Header = ({ className }: Props) => {
               Вкуснее уже некуда{" "}
             </p>
           </div>
+        </div>
+        <div className="flex-1 mx-10">
+          <SearchInput />
         </div>
         <div className="flex items-center gap-3">
           <Button variant="outline" className="flex items-center gap-3">

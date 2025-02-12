@@ -17,7 +17,7 @@ export default function Home() {
       <Container className="pt-14">
         <div className="flex gap-[100px]">
           {/* Фильтрация   */}
-          <div className="w-[400px]">
+          <div className="w-[500px]">
             <Filters />
           </div>
           <div>

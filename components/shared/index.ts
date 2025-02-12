@@ -1,3 +1,4 @@
+export { SearchInput } from "./search-input";
 export { TopBar } from "./top-bar";
 export { Container } from "./container";
 export { Categories } from "./categories";
