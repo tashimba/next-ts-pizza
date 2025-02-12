@@ -1,5 +1,6 @@
 export const categories = [
   { name: "Пицца" },
+  { name: "Завтраки" },
   { name: "Комбо" },
   { name: "Закуски" },
   { name: "Коктейли" },
@@ -124,7 +125,7 @@ export const products = [
     name: "Омлет с ветчиной и грибами",
     imageUrl:
       "https://media.dodostatic.net/image/r:292x292/11ee7d610e8bbb248f31270be742b4bd.avif",
-    categoryId: 1,
+    categoryId: 2,
   },
   {
     name: "Омлет с курицей",
@@ -133,9 +134,9 @@ export const products = [
     categoryId: 2,
   },
   {
-    name: "Омлет с капустой",
+    name: "Каппучино",
     imageUrl:
       "https://media.dodostatic.net/image/r:292x292/11ee7d610e8bbb248f31270be742b4bd.avif",
-    categoryId: 3,
+    categoryId: 6,
   },
 ];
