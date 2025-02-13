@@ -19,4 +19,8 @@ eslintConfig.push({
   },
 });
 
+eslintConfig.push({
+  ignorePatterns: ["node_modules/**"],
+});
+
 export default eslintConfig;
