@@ -5,19 +5,23 @@ import { DialogTitle } from "@radix-ui/react-dialog";
 import { PizzaImage } from "./pizza-image";
 import { GroupVariants } from "./group-variants";
 import {
+  mapPizzaTypes,
   PizzaSize,
   pizzaSizes,
   PizzaType,
   pizzaTypes,
 } from "@/shared/constants/pizza";
-import { Ingredient } from "@prisma/client";
+import { Ingredient, ProductItem } from "@prisma/client";
 import { IngredientItem } from "./ingredient-item";
+import { useSet } from "react-use";
+import { CalcTotalPizzaPrice, getAvailablePizzaSizes } from "@/shared/lib";
+import { usePizzaOptions } from "@/shared/hooks/use-pizza-options";
 
 interface Props {
   imageUrl: string;
   name: string;
   ingredients: Ingredient[];
-  items?: any[];
+  items: ProductItem[];
   onClickAdd?: () => void;
   className?: string;
 }
@@ -30,11 +34,32 @@ export const ChoosePizzaForm = ({
   onClickAdd,
   className,
 }: Props) => {
-  const [size, setSize] = React.useState<PizzaSize>(20);
-  const [type, setType] = React.useState<PizzaType>(1);
+  const {
+    size,
+    type,
+    setSize,
+    availableSizes,
+    setType,
+    addIngredient,
+    selectedIngredients,
+  } = usePizzaOptions(items);
 
-  const textDetails = `${size} см, ${type} тесто`;
-  const totalPrice = 123;
+  const textDetails = `${size} см, ${mapPizzaTypes[
+    type
+  ].toLocaleLowerCase()} тесто`;
+
+  const totalPrice = CalcTotalPizzaPrice(
+    items,
+    size,
+    type,
+    selectedIngredients,
+    ingredients
+  );
+
+  const handleClickAdd = () => {
+    onClickAdd?.();
+  };
+
   return (
     <div className={cn(className, "flex flex-1")}>
       <PizzaImage imageUrl={imageUrl} size={size} />
@@ -46,7 +71,7 @@ export const ChoosePizzaForm = ({
 
         <div className="flex flex-col gap-2 my-5">
           <GroupVariants
-            items={pizzaSizes}
+            items={availableSizes}
             value={String(size)}
             onClick={(value) => setSize(Number(value) as PizzaSize)}
           />
@@ -58,7 +83,7 @@ export const ChoosePizzaForm = ({
           />
         </div>
 
-        <div className="bg-gray-50 p-5 rounded-md overflow-y-scroll h-[360px] scrollbar mt-5">
+        <div className="bg-gray-50 p-5 rounded-md overflow-y-scroll h-[360px] scrollbar my-3">
           <div className="grid grid-cols-3 gap-3">
             {ingredients.map((ingredient) => (
               <IngredientItem
@@ -66,7 +91,8 @@ export const ChoosePizzaForm = ({
                 name={ingredient.name}
                 price={ingredient.price}
                 imageUrl={ingredient.imageUrl}
-                onClick={onClickAdd}
+                onClick={() => addIngredient(ingredient.id)}
+                active={selectedIngredients.has(ingredient.id)}
               />
             ))}
           </div>
