@@ -1,3 +1,5 @@
+export { CartDrawer } from "./cart-drawer";
+export { CartButton } from "./cart-button";
 export { PizzaImage } from "./pizza-image";
 export { ChooseProductModal } from "./modals/choose-product-modal";
 export { SearchInput } from "./search-input";

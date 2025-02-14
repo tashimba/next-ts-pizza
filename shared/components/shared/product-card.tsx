@@ -4,6 +4,7 @@ import React from "react";
 import { Title } from "./title";
 import { Button } from "../ui";
 import { Plus } from "lucide-react";
+import { Ingredient } from "@prisma/client";
 
 interface Props {
   name: string;
@@ -11,6 +12,7 @@ interface Props {
   count?: number;
   imageUrl: string;
   className?: string;
+  ingredients: Ingredient[];
   id: number;
 }
 
@@ -21,6 +23,7 @@ export function ProductCard({
   imageUrl,
   className,
   id,
+  ingredients,
 }: Props) {
   return (
     <div>
@@ -30,8 +33,7 @@ export function ProductCard({
         </div>
         <Title text={name} size="sm" className="mb-1 mt-3 font-bold" />
         <p className="text-sm text-gray-400">
-          Цыпленок, моцарелла, сыры чеддер и пармезан, сырный соус, томаты, соус
-          альфредо, чеснок
+          {ingredients.map((ing) => ing.name).join(", ")}
         </p>
         <div className="flex justify-between items-center mt-4">
           <span className="text-[20px]">

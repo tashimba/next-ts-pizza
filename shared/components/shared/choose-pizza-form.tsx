@@ -22,7 +22,8 @@ interface Props {
   name: string;
   ingredients: Ingredient[];
   items: ProductItem[];
-  onClickAdd?: () => void;
+  onSubmit: (itemId: number, ingredients: number[]) => void;
+  loading: boolean;
   className?: string;
 }
 
@@ -31,8 +32,9 @@ export const ChoosePizzaForm = ({
   name,
   ingredients,
   items,
-  onClickAdd,
+  onSubmit,
   className,
+  loading,
 }: Props) => {
   const {
     size,
@@ -42,6 +44,7 @@ export const ChoosePizzaForm = ({
     setType,
     addIngredient,
     selectedIngredients,
+    currentItemId,
   } = usePizzaOptions(items);
 
   const textDetails = `${size} см, ${mapPizzaTypes[
@@ -57,7 +60,9 @@ export const ChoosePizzaForm = ({
   );
 
   const handleClickAdd = () => {
-    onClickAdd?.();
+    if (currentItemId) {
+      onSubmit(currentItemId, Array.from(selectedIngredients));
+    }
   };
 
   return (
@@ -98,7 +103,11 @@ export const ChoosePizzaForm = ({
           </div>
         </div>
 
-        <Button className="h-[55px] px-10 text-base rounded-[18px] w-full">
+        <Button
+          loading={loading}
+          onClick={handleClickAdd}
+          className="h-[55px] px-10 text-base rounded-[18px] w-full"
+        >
           Добавить в корзину за {totalPrice} ₽
         </Button>
       </div>

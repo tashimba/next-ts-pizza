@@ -1,5 +1,7 @@
 import { prisma } from "@/app/prisma/prisma-client";
 import { Container, PizzaImage, Title } from "@/shared/components/shared";
+import { ChoosePizzaForm } from "@/shared/components/shared/choose-pizza-form";
+import { ChooseProductForm } from "@/shared/components/shared/choose-product-form";
 import { GroupVariants } from "@/shared/components/shared/group-variants";
 import { notFound } from "next/navigation";
 
@@ -10,47 +12,46 @@ export default async function ProductPage({
 }) {
   const product = await prisma.product.findFirst({
     where: { id: Number(id) },
+    include: {
+      ingredients: true,
+      category: {
+        include: {
+          products: {
+            include: {
+              items: true,
+            },
+          },
+        },
+      },
+      items: true,
+    },
   });
+
   if (!product) return notFound();
+
+  const firstItem = product.items[0];
+  const isPizzaForm = Boolean(firstItem.pizzaType);
 
   return (
     <Container className="flex flex-col my-10">
-      <div className="flex flex-1">
-        <PizzaImage imageUrl={product.imageUrl} size={40} />
-
-        <div className="w-[490px] bg-[#fafafa] h p-7">
-          <Title
-            text={product.name}
-            size="lg"
-            className="font-extrabold mb-1"
-          />
-          <p className="text-gray-400">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Cupiditate
-            fugit reprehenderit animi voluptatibus fuga, esse pariatur omnis
-            tempore ipsa alias corporis. Adipisci hic omnis, a vel voluptates
-            quam eius vitae?
-          </p>
-
-          <GroupVariants
-            items={[
-              {
-                name: "Маленькая",
-                value: "1",
-              },
-              {
-                name: "Средняя",
-                value: "2",
-              },
-              {
-                name: "Большая",
-                value: "3",
-                disabled: true,
-              },
-            ]}
-            selectedValue="2"
-          />
-        </div>
-      </div>
+      {isPizzaForm ? (
+        <ChoosePizzaForm
+          imageUrl={product.imageUrl}
+          name={product.name}
+          ingredients={product.ingredients}
+          items={product.items}
+          onSubmit={onSubmit}
+          loading={loading}
+        />
+      ) : (
+        <ChooseProductForm
+          imageUrl={product.imageUrl}
+          name={product.name}
+          price={firstItem.price}
+          onSubmit={onSubmit}
+          loading={loading}
+        />
+      )}
     </Container>
   );
 }

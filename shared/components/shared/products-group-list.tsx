@@ -5,10 +5,11 @@ import { Title } from "./title";
 import { ProductCard } from "./product-card";
 import { useIntersection } from "react-use";
 import { useCategoryStore } from "@/shared/store/category";
+import { ProductWithRelations } from "@/@types/prisma";
 
 interface Props {
   title: string;
-  items: any[];
+  items: ProductWithRelations[];
   className?: string;
   categoryId: number;
   listClassName?: string;
@@ -45,6 +46,7 @@ export const ProductsGroupList = ({
             imageUrl={product.imageUrl}
             price={product.items[0].price}
             count={i % 2}
+            ingredients={product.ingredients}
           />
         ))}
       </div>

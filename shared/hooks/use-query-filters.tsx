@@ -16,5 +16,5 @@ export default function useQueryFilters(filters: QueryFilters) {
       arrayFormat: "comma",
     });
     router.push(`?${query}`, { scroll: false });
-  }, [filters, router]);
+  }, [filters]);
 }
